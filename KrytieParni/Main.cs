@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace KrytieParni
 {
-    internal class Main
+    class Program
     {
+        public static void Main(string[] args)
+        {
+
+        }
     }
 }
