@@ -73,19 +73,20 @@ namespace KrytieParni
         {
             get
             {
-                if (publications.Length==0)
+                if (publications.Length == 0)
                 {
                     return null;
                 }
                 Paper res = publications[0];
                 foreach (Paper p in publications)
                 {
-                    if (p.Date>=res.Date)
+                    if (p.Date >= res.Date)
                     {
                         res = p;
                     }
                 }
                 return res;
+            }
         }
         public bool this[TimeFrame t]
         {
