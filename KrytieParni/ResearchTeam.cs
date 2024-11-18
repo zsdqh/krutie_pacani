@@ -57,7 +57,6 @@ namespace KrytieParni
                 }
             }
         }
-        private TimeFrame length;
         public TimeFrame Length { get; set; }
         private Paper[] publications;
         public Paper[] Publications
@@ -92,14 +91,14 @@ namespace KrytieParni
         {
             get
             {
-                return t == length;
+                return t == Length;
             }
         }
         public void AddPapers(params Paper[] papers)
         {
             foreach (Paper p in papers)
             {
-                publications.Append(p);
+                publications = publications.Append(p).ToArray();
             }
         }
         public override string ToString()
@@ -107,7 +106,7 @@ namespace KrytieParni
             String res = $"{this.Name}" +
                 $"\n\t{this.organization}" +
                 $"\n\t{this.Id}" +
-                $"\n\t{((int)this.length == 2 ? "несколько" : (int)length+1)} лет" +
+                $"\n\t{((int)this.Length == 2 ? "несколько" : (int)Length+1)} лет" +
                 $"\n\tПубликации:" +
                 $"\n\t{{";
             foreach (Paper p in publications)
@@ -122,7 +121,7 @@ namespace KrytieParni
             return $"{this.Name}" +
                 $"\n\t{this.organization}" +
                 $"\n\t{this.Id}" +
-                $"\n\t{((int)this.length == 2 ? "несколько" : (int)length+1)} лет"+
+                $"\n\t{((int)this.Length == 2 ? "несколько" : (int)Length + 1)} лет"+
                 $"\n\tКол-во публикаций: {publications.Length}";
         }
 
