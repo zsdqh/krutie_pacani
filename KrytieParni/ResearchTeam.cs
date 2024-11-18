@@ -107,7 +107,7 @@ namespace KrytieParni
             String res = $"{this.Name}" +
                 $"\n\t{this.organization}" +
                 $"\n\t{this.Id}" +
-                $"\n\t{((int)this.length == 3 ? "несколько" : length.ToString())} лет" +
+                $"\n\t{((int)this.length == 2 ? "несколько" : (int)length+1)} лет" +
                 $"\n\tПубликации:" +
                 $"\n\t{{";
             foreach (Paper p in publications)
@@ -122,7 +122,7 @@ namespace KrytieParni
             return $"{this.Name}" +
                 $"\n\t{this.organization}" +
                 $"\n\t{this.Id}" +
-                $"\n\t{((int)this.length == 3 ? "несколько" : length)} лет"+
+                $"\n\t{((int)this.length == 2 ? "несколько" : (int)length+1)} лет"+
                 $"\n\tКол-во публикаций: {publications.Length}";
         }
 
