@@ -71,7 +71,7 @@ namespace MainProgram
                 var temp = oneDimensionalArray[i];
             }
             watch.Stop();
-            var oneDimensionalTime = watch.ElapsedMilliseconds;
+            var oneDimensionalTime = watch.ElapsedTicks;
             Console.WriteLine($"\nВремя доступа к элементам одномерного массива: {oneDimensionalTime} мс");
 
             // Измерение времени доступа к элементам двумерного прямоугольного массива
@@ -81,7 +81,7 @@ namespace MainProgram
                 var temp = twoDimensionalRectangularArray[i / 100, i % 100];
             }
             watch.Stop();
-            var twoDimensionalRectangularTime = watch.ElapsedMilliseconds;
+            var twoDimensionalRectangularTime = watch.ElapsedTicks;
             Console.WriteLine($"Время доступа к элементам двумерного прямоугольного массива: {twoDimensionalRectangularTime} мс");
 
             // Измерение времени доступа к элементам двумерного ступенчатого массива
@@ -91,7 +91,7 @@ namespace MainProgram
                 var temp = twoDimensionalJaggedArray[i / 100][i % 100];
             }
             watch.Stop();
-            var twoDimensionalJaggedTime = watch.ElapsedMilliseconds;
+            var twoDimensionalJaggedTime = watch.ElapsedTicks;
             Console.WriteLine($"Время доступа к элементам двумерного ступенчатого массива: {twoDimensionalJaggedTime} мс");
         }
     }
