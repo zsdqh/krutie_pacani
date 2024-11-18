@@ -38,7 +38,7 @@ namespace KrytieParni
             { return birth; }
             set
             {
-                if(value.Year<DateTime.Now.Year)
+                if(value.Year<DateTime.Now.Year && value.Year > 1920)
                     birth = value;
                 else
                     throw new Exception("Не допустимая дата рождения");
@@ -55,6 +55,23 @@ namespace KrytieParni
                 else
                     throw new Exception("Не допустимый год рождения");
             }
+        }
+        public Person() : this("Ivan") { }
+        public Person(string name) : this(name, "Ivanov") { }
+        public Person(string name,string surname):this(name,surname,new DateTime(2000,1,1)) { }
+        public Person(string name, string surname, DateTime birth)
+        {
+            Name = name;
+            Surname = surname;
+            Birth = birth;
+        }
+        public override string ToString()
+        {
+            return $"Имя: {Name}\nФамилия: {Surname}\nДата рождения: {Birth.ToString("dd MMMM yyyy")}";
+        }
+        public virtual string ToShortString()
+        {
+            return Name +" "+Surname;
         }
     }
 }
