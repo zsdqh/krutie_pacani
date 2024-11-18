@@ -60,7 +60,7 @@ namespace KrytieParni
         }
         public override string ToString()
         {
-            return $"\nНазвание: {title}\nАвтор: {author.ToShortString()}\nДата публикации: {date.ToString("dd MMMM yyyy")}";
+            return $"\n\t\tНазвание: {title}\n\t\tАвтор: {author.ToShortString()}\n\t\tДата публикации: {date.ToString("dd MMMM yyyy")}";
         }
     }
 
