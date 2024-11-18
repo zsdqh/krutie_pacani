@@ -73,14 +73,14 @@ namespace KrytieParni
         {
             get
             {
-                if (publications.Length==0)
+                if (publications.Length == 0)
                 {
                     return null;
                 }
                 Paper res = publications[0];
                 foreach (Paper p in publications)
                 {
-                    if (p.Date>=res.Date)
+                    if (p.Date >= res.Date)
                     {
                         res = p;
                     }
@@ -107,14 +107,14 @@ namespace KrytieParni
             String res = $"{this.Name}" +
                 $"\n\t{this.organization}" +
                 $"\n\t{this.Id}" +
-                $"\n\t{(this.length.ToString() == "3" ? "несколько" : length.ToString())} лет" +
+                $"\n\t{((int)this.length == 3 ? "несколько" : length.ToString())} лет" +
                 $"\n\tПубликации:" +
                 $"\n\t{{";
             foreach (Paper p in publications)
             {
                 res += "\n\t\t" + p.ToString();
             }
-            return res + "\n\t}";
+            return res + "\n\n\t}";
         }
 
         public String ToShortString()

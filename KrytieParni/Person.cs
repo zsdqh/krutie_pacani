@@ -23,7 +23,7 @@ namespace KrytieParni
         }
         public string Surname
         {
-            get { return name; }
+            get { return surname; }
             set
             {
                 if (value.Length > 2 && value.Length < 20)
