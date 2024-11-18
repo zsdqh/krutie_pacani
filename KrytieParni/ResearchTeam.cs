@@ -132,6 +132,7 @@ namespace KrytieParni
             this.Organization = organization;
             this.Id = id;
             this.Length = tf;
+            this.publications = new Paper[0];
         }
 
 
