@@ -86,6 +86,7 @@ namespace KrytieParni
                     }
                 }
                 return res;
+            }
         }
         public bool this[TimeFrame t]
         {
