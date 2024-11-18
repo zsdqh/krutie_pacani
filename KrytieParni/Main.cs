@@ -22,6 +22,16 @@ namespace MainProgram
                 Console.WriteLine($"Два года: {researchTeam[TimeFrame.TwoYears]}");
                 Console.WriteLine($"Долгосрочный: {researchTeam[TimeFrame.Long]}");
 
+                Console.WriteLine("Введите дату (в формате ГГГГ-ММ-ДД) для новой публикации:");
+                string inputDate = Console.ReadLine();
+                DateTime userInputDate;
+
+                while (!DateTime.TryParse(inputDate, out userInputDate))
+                {
+                    Console.WriteLine("Неверный формат даты. Попробуйте еще раз:");
+                    inputDate = Console.ReadLine();
+                }
+
                 Paper[] papers = new Paper[]
                 {
                     new Paper("Анализ вируса", new Person("Вася", "Тупов", new DateTime(1985, 6, 15)), new DateTime(2022, 10, 5)),
@@ -32,7 +42,7 @@ namespace MainProgram
                 Console.WriteLine(researchTeam.ToString());
 
                 researchTeam.AddPapers(
-                    new Paper("Иммунная реакция", new Person("Иван", "Сидоров", new DateTime(1988, 11, 30)), new DateTime(2023, 6, 10)),
+                    new Paper("Иммунная реакция", new Person("Иван", "Сидоров", new DateTime(1988, 11, 30)), userInputDate),
                     new Paper("Вакцинация", new Person("Елена", "Васильева", new DateTime(1982, 4, 8)), new DateTime(2023, 1, 12))
                 );
                 Console.WriteLine("\nОбновленный список публикаций:");
@@ -52,11 +62,10 @@ namespace MainProgram
 
                 for (int i = 0; i < size; i++)
                 {
-                        Paper paper = new Paper($"Публикация {i}", new Person("Автор", "Фамилия", new DateTime(1910, 1, 1)), new DateTime(2022, 5, 6));/////////////
-                        oneDimensionalArray[i] = paper;
-                        twoDimensionalRectangularArray[i / 100, i % 100] = paper;
-                        twoDimensionalJaggedArray[i / 100][i % 100] = paper;
-                    
+                    Paper paper = new Paper($"Публикация {i}", new Person("Автор", "Фамилия", new DateTime(1990, 1, 1)), new DateTime(2022, 5, 6));
+                    oneDimensionalArray[i] = paper;
+                    twoDimensionalRectangularArray[i / 100, i % 100] = paper;
+                    twoDimensionalJaggedArray[i / 100][i % 100] = paper;
                 }
 
                 var watch = System.Diagnostics.Stopwatch.StartNew();
