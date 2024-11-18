@@ -114,7 +114,7 @@ namespace KrytieParni
             {
                 res += "\n\t\t" + p.ToString();
             }
-            return res + "\n\t}";
+            return res + "\n\n\t}";
         }
 
         public String ToShortString()
@@ -122,7 +122,7 @@ namespace KrytieParni
             return $"{this.Name}" +
                 $"\n\t{this.organization}" +
                 $"\n\t{this.Id}" +
-                $"\n\t{(this.length.ToString() == "3" ? "несколько" : length.ToString())} лет"+
+                $"\n\t{((int)this.length == 3 ? "несколько" : length)} лет"+
                 $"\n\tКол-во публикаций: {publications.Length}";
         }
 
