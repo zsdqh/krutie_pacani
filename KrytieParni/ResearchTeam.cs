@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 namespace KrytieParni
 {
     enum TimeFrame { Year, TwoYears, Long}
-    class ResearchTeam
+    class ResearchTeam: Team, INameAndCopy
     {
-        private String name;
-        public String Name
-            { get { return name; }
+        protected String research;
+        public new String Research
+        {
+            get { return research; }
             set
             {
                 if (value[0].ToString().ToUpper() == value[0].ToString())
                 {
-                    name = value;
+                    research = value;
                 }
                 else
                 {
@@ -25,41 +26,15 @@ namespace KrytieParni
                 }
             }
         }
-        private String organization;
-        public String Organization
+        private List<Person> people;
+        public List<Person> People
         {
-            get { return organization; }
-            set
-            {
-                if (value[0].ToString().ToUpper() == value[0].ToString())
-                {
-                    organization = value;
-                }
-                else
-                {
-                    throw new Exception("Название организации должно начинаться с большой буквы");
-                }
-            }
-        }
-        private int id;
-        public int Id
-        {
-            get { return id; }
-            set
-            {
-                if (value>0)
-                {
-                    id = value;
-                }
-                else
-                {
-                    throw new Exception("Регистрационный номер должен быть положительным");
-                }
-            }
+            get { return people; }
+            set { people = value; }
         }
         public TimeFrame Length { get; set; }
-        private Paper[] publications;
-        public Paper[] Publications
+        private List<Paper> publications;
+        public List<Paper> Publications
         {
             get { return publications; }
             set
@@ -67,12 +42,16 @@ namespace KrytieParni
                 publications = value;
             }
         }
+        public Team GetBaseTeam
+        {
+            get { return null; } //КОропа уточнит завтра(в субботу)
+        }
 
         public Paper LatestPaper
         {
             get
             {
-                if (publications.Length == 0)
+                if (publications.Count == 0)
                 {
                     return null;
                 }
@@ -94,17 +73,25 @@ namespace KrytieParni
                 return t == Length;
             }
         }
-        public void AddPapers(params Paper[] papers)
+        public void AddPapers(List<Paper> papers)
         {
             foreach (Paper p in papers)
             {
-                publications = publications.Append(p).ToArray();
+                publications.Add(p);
             }
         }
+        public void AddMembers(List<Person> per)
+        {
+            foreach(Person p in per)
+            {
+                people.Add(p);
+            }
+        }
+
         public override string ToString()
         {
-            String res = $"{this.Name}" +
-                $"\n\t{this.organization}" +
+            String res = $"{this.Research}" +
+                $"\n\t{this.Name}" +
                 $"\n\t{this.Id}" +
                 $"\n\t{((int)this.Length == 2 ? "несколько" : (int)Length+1)} лет" +
                 $"\n\tПубликации:" +
@@ -113,27 +100,41 @@ namespace KrytieParni
             {
                 res += "\n\t\t" + p.ToString();
             }
+            res += "\n\n\t}";
+            res += "\n\tУчастники:" +
+                "\n\t{";
+            foreach(Person p in people)
+            {
+                res += "\n\t\t" + p.ToString();
+            }
             return res + "\n\n\t}";
         }
 
         public String ToShortString()
         {
-            return $"{this.Name}" +
-                $"\n\t{this.organization}" +
+            return $"{this.Research}" +
+                $"\n\t{this.Name}" +
                 $"\n\t{this.Id}" +
                 $"\n\t{((int)this.Length == 2 ? "несколько" : (int)Length + 1)} лет"+
-                $"\n\tКол-во публикаций: {publications.Length}";
+                $"\n\tКол-во публикаций: {publications.Count}" +
+                $"\n\tКОл-во участников: {people.Count}";
         }
 
-        public ResearchTeam(String name="Исследование", String organization="Организация", int id=-1, TimeFrame tf=TimeFrame.Long)
+        public ResearchTeam(String name="Исследование", String organization="Организация", int id=-1, TimeFrame tf=TimeFrame.Long, List<Paper> pub=null, List<Person> peop=null):base(organization, id)
         {
-            this.Name = name;
-            this.Organization = organization;
-            this.Id = id;
-            this.Length = tf;
-            this.publications = new Paper[0];
+            this.Research = name;
+            this.Length =tf;
+            this.publications = pub;
+            this.people = peop;
+            if (pub == null ) 
+                this.publications = new List<Paper>();
+            if(peop== null )
+                this.people = new List<Person>();
         }
-
+        public override object DeepCopy()
+        {
+            return new ResearchTeam(Research, Name, Id, Length, new List<Paper>(publications), new List<Person>(People));
+        }
 
 
     }
