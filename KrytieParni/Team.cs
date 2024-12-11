@@ -56,7 +56,7 @@ class Team:INameAndCopy
     }
     public override int GetHashCode()
     {
-        return this.Name.GetHashCode()+this.Id;
+        return this.Name.GetHashCode()+this.Id*11;
     }
     public override string ToString()
     {

@@ -42,9 +42,18 @@ namespace KrytieParni
                 publications = value;
             }
         }
+        private Team BaseTeam;
         public Team GetBaseTeam
         {
-            get { return null; } //КОропа уточнит завтра(в субботу)
+            get
+            {
+                return BaseTeam;
+            }
+            set
+            {
+                BaseTeam.Name = value.Name;
+                BaseTeam.Id = value.Id;
+            }
         }
 
         public Paper LatestPaper
@@ -64,13 +73,6 @@ namespace KrytieParni
                     }
                 }
                 return res;
-            }
-        }
-        public bool this[TimeFrame t]
-        {
-            get
-            {
-                return t == Length;
             }
         }
         public void AddPapers(List<Paper> papers)
@@ -133,9 +135,39 @@ namespace KrytieParni
         }
         public override object DeepCopy()
         {
-            return new ResearchTeam(Research, Name, Id, Length, new List<Paper>(publications), new List<Person>(People));
-        }
+            List<Paper> new_pub = new List<Paper>();
+            foreach (Paper p in publications)
+            {
+                new_pub.Add(p.DeepCopy());
+            }
+            List<Person> new_pep = new List<Person>();
+            foreach(Person p in People)
+            {
+                new_pep.Add(p.DeepCopy());
+            }
 
+            return new ResearchTeam(Research, Name, Id, Length, new_pub, new_pep);
+        }
+        public IEnumerator<Person> PersonsWithoutPublications()
+        {
+            List<Person> authors = new List<Person>();
+            foreach(Paper pub in publications)
+            {
+                if (!authors.Contains(pub.Author)) authors.Add(pub.Author);
+            }
+            foreach(Person p in people)
+            {
+                if (!authors.Contains(p)) yield return p;
+            }
+        }
+        public IEnumerator<Paper> PapersLessThanN(int n)
+        {
+            int now = DateTime.Now.Year;
+            foreach(Paper pub in publications)
+            {
+                if (pub.Date.Year-now<=n) yield return pub;
+            }
+        }
 
     }
 }
