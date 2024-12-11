@@ -1,14 +1,55 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace KrytieParni
 {
+
+    public interface IEnumerator<Person>
+    {
+        bool MoveNext();
+        public Person Current { get; }
+        void Reset();
+    }
+    class ResearchTeamEnumerator : IEnumerator<Person>
+    {
+        private List<Person> PeopleWithPublications;
+        private int ind = -1;
+        public ResearchTeamEnumerator(List<Paper> publications)
+        {
+            foreach (Paper p in publications)
+            {
+                if (!PeopleWithPublications.Contains(p.Author))
+                    PeopleWithPublications.Add(p.Author);
+            }
+        }
+        public Person Current
+        {
+            get { return PeopleWithPublications[ind]; }
+        }
+        public bool MoveNext()
+        {
+            if (ind + 1 == PeopleWithPublications.Count)
+            {
+                Reset();
+                return false;
+            }
+            ind++;
+            return true;
+        }
+        public void Reset()
+        {
+            ind = -1;
+        }
+    }
+
     enum TimeFrame { Year, TwoYears, Long}
-    class ResearchTeam: Team, INameAndCopy
+    class ResearchTeam: Team, INameAndCopy, IEnumerable<Person>
     {
         protected String research;
         public new String Research
@@ -138,36 +179,57 @@ namespace KrytieParni
             List<Paper> new_pub = new List<Paper>();
             foreach (Paper p in publications)
             {
-                new_pub.Add(p.DeepCopy());
+                new_pub.Add((Paper)p.DeepCopy());
             }
             List<Person> new_pep = new List<Person>();
             foreach(Person p in People)
             {
-                new_pep.Add(p.DeepCopy());
+                new_pep.Add((Person)p.DeepCopy());
             }
 
             return new ResearchTeam(Research, Name, Id, Length, new_pub, new_pep);
         }
-        public IEnumerator<Person> PersonsWithoutPublications()
+        public System.Collections.IEnumerator PersonsWithoutPublications()
         {
-            List<Person> authors = new List<Person>();
-            foreach(Paper pub in publications)
-            {
-                if (!authors.Contains(pub.Author)) authors.Add(pub.Author);
-            }
             foreach(Person p in people)
             {
-                if (!authors.Contains(p)) yield return p;
+                if (!this.Contains(p)) yield return p;
             }
         }
-        public IEnumerator<Paper> PapersLessThanN(int n)
+        public System.Collections.IEnumerator PersonsWithMany()
+        {
+            List<Person> authors = new List<Person>();
+            foreach (Paper pub in publications)
+            {
+                if (!authors.Contains(pub.Author)) authors.Add(pub.Author);
+                else yield return pub.Author;
+            }
+        }
+        public System.Collections.IEnumerator PapersLessThanN(int n)
         {
             int now = DateTime.Now.Year;
-            foreach(Paper pub in publications)
+            foreach (Paper pub in publications)
             {
-                if (pub.Date.Year-now<=n) yield return pub;
+                if (pub.Date.Year - now <= n) yield return pub;
             }
         }
+        public System.Collections.IEnumerator LastYear()
+        {
+            return PapersLessThanN(1);
+        }
+        public IEnumerator<Person> GetEnumerator()
+        {
+            return new ResearchTeamEnumerator(this.Publications);
+        }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        System.Collections.Generic.IEnumerator<Person> IEnumerable<Person>.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
