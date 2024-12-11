@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace KrytieParni
 {
-    class Paper
+    class Paper:INameAndCopy
     {
         string title;
         Person author;
         DateTime date;
-        public string Title
+        public string Name
         {
             get { return title; }
             set
@@ -54,13 +54,17 @@ namespace KrytieParni
         public Paper(string title, Person author) : this(title, author, new DateTime(2000, 1, 1)) { }
         public Paper(string title, Person author, DateTime date)
         {
-            Title = title;
+            Name = title;
             Author = author;
             Date = date;
         }
         public override string ToString()
         {
             return $"\n\t\tНазвание: {title}\n\t\tАвтор: {author.ToShortString()}\n\t\tДата публикации: {date.ToString("dd MMMM yyyy")}";
+        }
+        public virtual object DeepCopy()
+        {
+            return new Paper(Name, author.DeepCopy() as Person, Date);
         }
     }
 
