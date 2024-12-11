@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KrytieParni
 {
-    class Person
+    class Person:INameAndCopy
     {
         string name;
         string surname;
@@ -69,9 +70,43 @@ namespace KrytieParni
         {
             return $"Имя: {Name}\nФамилия: {Surname}\nДата рождения: {Birth.ToString("dd MMMM yyyy")}";
         }
+        public override bool Equals(object? obj)
+        {
+            if ((object)obj == null || !(obj is Person))
+                return false;
+            else
+            {
+                if (this.Name == (obj as Person).Name && this.Birth == (obj as Person).Birth && this.Surname == (obj as Person).Surname)
+                    return true;
+                return false;
+            }
+        }
+        public static bool operator ==(Person p1, Person p2)
+        {
+            if (Equals(p1, null)) return Equals(p2, null);
+
+            return p1.Equals(p2);
+        }
+
+        public static bool operator !=(Person p1, Person p2)
+        {
+            if (Equals(p1, null)) return !Equals(p2, null);
+            return !p1.Equals(p2);
+        }
         public virtual string ToShortString()
         {
             return Name +" "+Surname;
+        }
+        public virtual object DeepCopy()
+        {
+            return MemberwiseClone();
+        }
+        public override int GetHashCode()
+        {
+            int hashCode = 17;
+            hashCode = hashCode * 31 + Name.GetHashCode();
+            hashCode = hashCode * 31 + Surname.GetHashCode();
+            return hashCode;
         }
     }
 }
