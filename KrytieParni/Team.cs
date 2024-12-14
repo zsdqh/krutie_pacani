@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,8 +52,18 @@ class Team:INameAndCopy
 
     public override bool Equals(object? obj)
     {
-        if (obj is Team t) return t.Name==this.Name && t.Id==this.Id;
+        if ((object)obj!=null && obj is Team t) return t.Name==this.Name && t.Id==this.Id;
         return false;
+    }
+    public static bool operator ==(Team t1, Team t2)
+    {
+        if (Equals(t1, null)) return Equals(t2, null);
+        return t1.Equals(t2);
+    } 
+    public static bool operator !=(Team t1, Team t2)
+    {
+        if (Equals(t1, null)) return !Equals(t2, null);
+        return !t1.Equals(t2);
     }
     public override int GetHashCode()
     {

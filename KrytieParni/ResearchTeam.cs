@@ -52,7 +52,8 @@ namespace KrytieParni
     }
 
     enum TimeFrame { Year, TwoYears, Long}
-    class ResearchTeam: Team, INameAndCopy, IEnumerable<Person>
+    // RESEARCH TEAM----------------------------------------------RESEARCH TEAM----------------------------------------RESEARCH TEAM--------
+    class ResearchTeam : Team, INameAndCopy, IEnumerable<Person>
     {
         protected String research;
         public new String Research

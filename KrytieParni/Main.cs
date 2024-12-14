@@ -37,11 +37,14 @@ namespace MainProgram
                 });
             Console.WriteLine("\nДанные объекта ResearchTeam:");
             Console.WriteLine(researchTeam.ToString());
+
             Console.WriteLine("\nЗначение свойства Team для объекта ResearchTeam:");
             Console.WriteLine(researchTeam.GetBaseTeam.ToString());
+
             ResearchTeam deepCopyTeam = (ResearchTeam)researchTeam.DeepCopy();
             Console.WriteLine("\nСоздана глубокая копия объекта ResearchTeam:");
             Console.WriteLine(deepCopyTeam.ToString());
+
             researchTeam.Research = "Новое исследование вирусов";
             researchTeam.AddPapers(new List<Paper>
                 {
